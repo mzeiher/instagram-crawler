@@ -29,8 +29,8 @@ class Logging(object):
 
     def cleanup(self, timestamp):
         days = 86400 * 7
-        days_ago_log = '/tmp/%s-%s.log' % (Logging.PREFIX, timestamp - days)
-        for log in glob.glob("/tmp/instagram-crawler-*.log"):
+        days_ago_log = './tmp/%s-%s.log' % (Logging.PREFIX, timestamp - days)
+        for log in glob.glob("./tmp/instagram-crawler-*.log"):
             if log < days_ago_log:
                 os.remove(log)
 
