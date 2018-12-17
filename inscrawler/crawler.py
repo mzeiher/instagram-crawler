@@ -14,6 +14,7 @@ from time import sleep
 from tqdm import tqdm
 import os
 import glob
+import re
 
 class Logging(object):
     PREFIX = 'instagram-crawler'
@@ -172,6 +173,7 @@ class InsCrawler(Logging):
 
             # Fetching all img
             content = None
+            content_innerhtml = ''
             img_urls = set()
             while True:
                 ele_imgs = browser.find('._97aPb img', waittime=10)
@@ -180,6 +182,9 @@ class InsCrawler(Logging):
                         content = ele_img.get_attribute('alt')
                     img_urls.add(ele_img.get_attribute('src'))
 
+                ele_content_innerhtml = browser.find('._7UhW9', waittime=10)
+                for ele_content_more in ele_content_innerhtml:
+                    content_innerhtml += ele_content_more.get_property('innerHTML')
                 next_photo_btn = browser.find_one('._6CZji .coreSpriteRightChevron')
                 if next_photo_btn:
                     next_photo_btn.click()
@@ -188,6 +193,8 @@ class InsCrawler(Logging):
                     break
 
             dict_post['content'] = content
+            dict_post['content_innerhtml'] = content_innerhtml
+            dict_post['content_innerhtml_text'] = re.sub('<[^>]+>', '', content_innerhtml)
             dict_post['img_urls'] = list(img_urls)
 
             # Fetching comments
