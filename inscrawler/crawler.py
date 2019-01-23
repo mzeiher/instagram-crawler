@@ -149,6 +149,10 @@ class InsCrawler(Logging):
 
         browser = self.browser
         browser.implicitly_wait(1)
+        overlay_button = browser.find_one('.dCJp8.afkep')
+        if overlay_button:
+            overlay_button.click()
+            browser.implicitly_wait(1)
         ele_post = browser.find_one('.v1Nh3 a')
         ele_post.click()
         dict_posts = {}
@@ -182,7 +186,7 @@ class InsCrawler(Logging):
                         content = ele_img.get_attribute('alt')
                     img_urls.add(ele_img.get_attribute('src'))
 
-                ele_content_innerhtml = browser.find('._7UhW9', waittime=10)
+                ele_content_innerhtml = browser.find('.gElp9', waittime=10)
                 for ele_content_more in ele_content_innerhtml:
                     content_innerhtml += ele_content_more.get_property('innerHTML')
                 next_photo_btn = browser.find_one('._6CZji .coreSpriteRightChevron')
